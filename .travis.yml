@@ -1,2 +1,4 @@
+before_script:
+  - touch .env
 script:
-  - touch .env && docker-compose up test
+  - docker-compose up test
