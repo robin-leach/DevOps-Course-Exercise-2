@@ -42,7 +42,7 @@ To run the app on Docker in development mode (with hot reloading), run `docker-c
 
 ### Prerequisites
 
-You will need a `geckodriver.exe` file at the project root, and Firefox installed.
+You will need a `chromedriver.exe` file at the project root, and Chrome installed.
 
 ### Running the tests
 
