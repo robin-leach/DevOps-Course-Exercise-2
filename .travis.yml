@@ -1,2 +1,2 @@
 script:
-  - echo "hello world"
+  - touch .env && docker-compose up test

@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.4"
 
 services:
   dev-app:
@@ -17,3 +17,14 @@ services:
     build:
       context: .
       target: production
+  test:
+    environment:
+      FLASK_APP: ${FLASK_APP}
+      FLASK_ENV: ${FLASK_ENV}
+      TRELLO_API_BASE_URL: ${TRELLO_API_BASE_URL}
+      TRELLO_KEY: ${TRELLO_KEY}
+      TRELLO_TOKEN: ${TRELLO_TOKEN}
+      TRELLO_BOARD_ID: ${TRELLO_BOARD_ID}
+    build:
+      context: .
+      target: test
