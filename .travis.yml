@@ -5,3 +5,6 @@ script:
   - docker-compose run test test
   - docker-compose run test integration_tests
   - docker-compose run test e2e_tests
+
+notifications:
+  slack: robinstestteam:vUxYaefVGtIpUUx9iMO6YYjE
