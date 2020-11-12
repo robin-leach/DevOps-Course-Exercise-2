@@ -46,6 +46,10 @@ You will need a `chromedriver.exe` file at the project root, and Chrome installe
 
 ### Running the tests
 
-To run all tests, run `pytest`
-To run integration tests, run `pytest test_app.py`
-To run end-to-end tests, run `pytest e2e_tests/end_to_end_test.py`
+To run all tests, run `pytest`.
+
+To run unit tests, run `pytest test`.
+
+To run integration tests, run `pytest integration_tests`.
+
+To run end-to-end tests, run `pytest e2e_tests`.

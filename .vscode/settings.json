@@ -1,5 +1,5 @@
 {
-  "python.pythonPath": "env\\Scripts\\python.exe",
+  "python.pythonPath": "C:\\Users\\RobLea\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
   "editor.tabSize": 2,
   "python.testing.pytestArgs": [
     "."
