@@ -16,4 +16,4 @@ script:
     test e2e_tests
 
 notifications:
-  slack: robinstestteam:vUxYaefVGtIpUUx9iMO6YYjE
+  slack: robinstestteam:$SLACK_KEY
