@@ -17,3 +17,8 @@ script:
 
 notifications:
   slack: robinstestteam:$SLACK_KEY
+  email:
+    recipients:
+      - $EMAIL_ADDRESS_FOR_NOTIFICATIONS
+    on_success: never
+    on_failure: always
