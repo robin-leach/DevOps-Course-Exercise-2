@@ -1,10 +1,19 @@
-before_script:
-  - touch .env
+services:
+- docker
+
+before-script:
+  - docker build -t test .
 
 script:
-  - docker-compose run test test
-  - docker-compose run test integration_tests
-  - docker-compose run test e2e_tests
+  - docker run test test
+  - docker run test integration_tests
+  - >
+    docker run
+    -e TRELLO_API_BASE_URL=$TRELLO_API_BASE_URL
+    -e TRELLO_KEY=$TRELLO_KEY
+    -e TRELLO_TOKEN=$TRELLO_TOKEN
+    -e TRELLO_BOARD_ID=$TRELLO_BOARD_ID
+    test e2e_tests
 
 notifications:
   slack: robinstestteam:vUxYaefVGtIpUUx9iMO6YYjE
