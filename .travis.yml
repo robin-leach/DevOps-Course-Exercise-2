@@ -1,14 +1,7 @@
 before_script:
   - touch .env
 
-jobs:
-  include:
-  - stage: "Tests"
-    name: "Unit tests"
-    env: TEST_ARG=test
-  - name: "Integration tests"
-    env: TEST_ARG=integration_tests
-  - name: "End-to-end tests"
-    env: TEST_ARG=e2e_tests
-
-script: docker-compose run test $TEST_ARG
+script:
+  - docker-compose run test test
+  - docker-compose run test integration_tests
+  - docker-compose run test e2e_tests
