@@ -2,17 +2,17 @@ services:
 - docker
 
 before-script:
-  - docker build -t test .
+  - docker build --tag test --target test .
 
 script:
   - docker run test test
   - docker run test integration_tests
   - >
     docker run
-    -e TRELLO_API_BASE_URL=$TRELLO_API_BASE_URL
-    -e TRELLO_KEY=$TRELLO_KEY
-    -e TRELLO_TOKEN=$TRELLO_TOKEN
-    -e TRELLO_BOARD_ID=$TRELLO_BOARD_ID
+    -e TRELLO_API_BASE_URL
+    -e TRELLO_KEY
+    -e TRELLO_TOKEN
+    -e TRELLO_BOARD_ID
     test e2e_tests
 
 notifications:
