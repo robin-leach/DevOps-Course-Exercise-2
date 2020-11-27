@@ -42,10 +42,22 @@ To run the app on Docker in development mode (with hot reloading), run `docker-c
 
 ### Prerequisites
 
-You will need a `geckodriver.exe` file at the project root, and Firefox installed.
+You will need a `chromedriver.exe` file at the project root, and Chrome installed.
 
 ### Running the tests
 
-To run all tests, run `pytest`
-To run integration tests, run `pytest test_app.py`
-To run end-to-end tests, run `pytest e2e_tests/end_to_end_test.py`
+To run all tests, run `pytest`.
+
+To run unit tests, run `pytest test`.
+
+To run integration tests, run `pytest integration_tests`.
+
+To run end-to-end tests, run `pytest e2e_tests`.
+
+### Running the tests in a Docker container 
+
+To run the tests in a Docker container, run  `docker build --tag test --target test .` to build the container and
+ * `docker run test test` to run all the unit tests
+ * `docker run test integration_tests` to run all the integration tests
+ * `docker run --env-file .env test e2e_tests` to run all the end-to-end tests
+ * `docker run --env-file .env test` to run all the tests

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-poetry run flask run --host 0.0.0.0 > app_logs.log 
+poetry run flask run --host 0.0.0.0 > app_logs.log

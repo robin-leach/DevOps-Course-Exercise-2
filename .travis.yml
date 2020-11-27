@@ -1,0 +1,26 @@
+services:
+- docker
+
+before-script:
+  - docker build --tag test --target test .
+
+script:
+  - docker run test test
+  - docker run test integration_tests
+  - >
+    docker run
+    -e TRELLO_API_BASE_URL
+    -e TRELLO_KEY
+    -e TRELLO_TOKEN
+    -e TRELLO_BOARD_ID
+    test e2e_tests
+
+notifications:
+  slack:
+    rooms:
+      - secure: "R23X+D1gwJ3rRrgdWNLhq9+6HcOXjrqZeClkIdIkYU8mEDaTvjJiX+fIdUyGm5cDROXmdgSruuU0TrKiCfYq6/OpEJm1EJS1fsManeFK7VZ0Dl2+lzF3ul3kwoSu9svEfbXlOkdU8aIcXJJLu3LF2cS3VI9gJbqk+qeCJ/zZyRgAj38N/NF7RU8CYfTCyyJodIpfHW0pmhOKj/8NbcmNCK1K/JkaxkjJ0K/xpVHsMzXt3i9Phal9CBzOvkP8UWUEWjcyfV1UYwR0IWelnfiLl2ls2B7QX5Tyzx1u+IdFv8eFfQE/fgfYrYhc8q95i7bNNvUdv11IYwPLcXGsqBBzrTySDi3GBJf/Nr5YoyLxSkUIlhdGHw26Pwm/K3NuNaz8FOQpz8VIkyU5GNhx+ZgOErrzSg70mPJGrEcxgXn0cjgEJJjgAe9/RLtYO8A65s9qcQCjPdwkMYY9M9/M+k6IIBgfgWDGfwm3iRW5Av+At16s5Q+/2CJ6tgzFsju6zSdmno8YTmGetOmMcE8wHzIRGAGcB73H2qsETDQVotHK7sc3siHSbupHFaAGOKpZQDxWDjY4KorYdi5Hww5oIymOaU16qetAgsrtx0Wf4ne0V1a0KXsb2R5iBgMTtbkajCH+lkk6CNCHgE5OMDyj1O4htQ7qSswtpVvN9S90V9VbFIo="
+  email:
+    recipients:
+      - robin.leach@softwire.com
+    on_success: never
+    on_failure: always
