@@ -28,7 +28,7 @@ deploy:
   provider: script
   script: bash deploy.sh
   on:
-    branch: exercise-8
+    branch: master
 
 notifications:
   slack:
