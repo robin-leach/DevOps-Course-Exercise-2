@@ -1,8 +1,13 @@
 services:
 - docker
 
+before-install:
+  - echo "$DOCKER_HUB_PASSWORD" | docker login --username $DOCKER_HUB_USERNAME --password-stdin
+  - heroku container:login
+
 before-script:
   - docker build --tag test --target test .
+  - docker build --tag $DOCKER_HUB_USERNAME/todo-app:latest --target production .
 
 script:
   - docker run test test
@@ -12,8 +17,13 @@ script:
     -e TRELLO_API_BASE_URL
     -e TRELLO_KEY
     -e TRELLO_TOKEN
-    -e TRELLO_BOARD_ID
     test e2e_tests
+
+deploy:
+  provider: script
+  script: bash deploy.sh
+  on:
+    branch: master
 
 notifications:
   slack:
