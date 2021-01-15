@@ -6,7 +6,6 @@ RUN poetry install
 
 FROM base as production
 RUN pip install gunicorn flask
-EXPOSE $PORT
 CMD gunicorn -b 0.0.0.0:${PORT} 'app:create_app()'
 
 FROM base as development

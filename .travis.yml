@@ -17,12 +17,7 @@ script:
     -e TRELLO_API_BASE_URL
     -e TRELLO_KEY
     -e TRELLO_TOKEN
-    -e TRELLO_BOARD_ID
-    -e PORT
     test e2e_tests
-
-after-script:
-  - docker push $DOCKER_HUB_USERNAME/todo-app:latest
 
 deploy:
   provider: script
