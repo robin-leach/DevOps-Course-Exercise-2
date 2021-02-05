@@ -7,9 +7,9 @@ from dotenv import find_dotenv, load_dotenv
 import logging
 
 from app import create_app
-from trello_requests.boards import create_board, delete_board
-from trello_requests.lists import create_list
-from entity.list_name import ListName
+from db_client.index import get_db_collection
+from entity.status import Status
+from helpers.index import generate_random_string
 
 log = logging.getLogger('app')
 
@@ -19,27 +19,25 @@ def test_app():
     file_path = find_dotenv()
     load_dotenv(file_path, override=True)
 
-    # Create the new board & update the board id environment variable
-    board_id = create_board('test-name')
-    os.environ['TRELLO_BOARD_ID'] = board_id
+    # Set up a temporary test collection
+    os.environ['MONGO_DB_TABLE_NAME'] = 'test-table-' + generate_random_string(10)
+    collection = get_db_collection()
 
-    # Create the necessary columns
-    create_list(ListName.ToDo.value)
-    create_list(ListName.Doing.value)
-    create_list(ListName.Done.value)
+    # Clear the collection in case it already contains data
+    collection.drop()
 
-    # construct the new application
+    # Construct the new application
     application = create_app()
 
-    # start the app in its own thread.
+    # Start the app in its own thread.
     thread = Thread(target=lambda: application.run(use_reloader=False))
     thread.daemon = True
     thread.start()
     yield application
 
-    # Tear Down
+    # Tear down, including wiping test collection
     thread.join(1)
-    delete_board(board_id)
+    collection.drop()
 
 
 @pytest.fixture(scope="module")

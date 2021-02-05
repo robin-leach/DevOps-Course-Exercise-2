@@ -3,8 +3,7 @@ FLASK_APP=app
 FLASK_ENV=development
 FLASK_SKIP_DOTENV=True
 
-# Trello
-TRELLO_API_BASE_URL=url
-TRELLO_KEY=key
-TRELLO_TOKEN=token
-TRELLO_BOARD_ID=id
+# MongoDb
+MONGO_DB_USER_NAME=test-username
+MONGO_DB_PASSWORD=test-password
+MONGO_DB_TABLE_NAME=test-table-name

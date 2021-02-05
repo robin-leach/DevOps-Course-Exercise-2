@@ -14,9 +14,8 @@ script:
   - docker run test integration_tests
   - >
     docker run
-    -e TRELLO_API_BASE_URL
-    -e TRELLO_KEY
-    -e TRELLO_TOKEN
+    -e MONGO_DB_USER_NAME
+    -e MONGO_DB_PASSWORD
     test e2e_tests
 
 deploy:

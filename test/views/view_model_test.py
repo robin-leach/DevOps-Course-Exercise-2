@@ -1,34 +1,34 @@
 import pytest
 
-from entity.list_name import ListName
+from entity.status import Status
 from entity.item import Item
 from views.view_model import ViewModel
 
 
 @pytest.fixture
 def to_do_item():
-    return Item('to-do-id', 'to-do-title', ListName.ToDo.value, "2020-06-24T14:51:12.321Z")
+    return Item('to-do-id', 'to-do-title', Status.ToDo.value, "2020-06-24T14:51:12.321Z")
 
 
 @pytest.fixture
 def doing_item():
-    return Item('doing-id', 'doing-title', ListName.Doing.value, "2020-06-24T14:51:12.321Z")
+    return Item('doing-id', 'doing-title', Status.Doing.value, "2020-06-24T14:51:12.321Z")
 
 
 @pytest.fixture
 def done_item():
-    return Item('done-id', 'done-title', ListName.Done.value, "2020-06-24T14:51:12.321Z")
+    return Item('done-id', 'done-title', Status.Done.value, "2020-06-24T14:51:12.321Z")
 
 
 @pytest.fixture
 def view_model():
     return ViewModel(
         [
-            Item('to-do-id', 'to-do-title', ListName.ToDo.value,
+            Item('to-do-id', 'to-do-title', Status.ToDo.value,
                  "2020-06-24T14:51:12.321Z"),
-            Item('doing-id', 'doing-title', ListName.Doing.value,
+            Item('doing-id', 'doing-title', Status.Doing.value,
                  "2020-06-24T14:51:12.321Z"),
-            Item('done-id', 'done-title', ListName.Done.value,
+            Item('done-id', 'done-title', Status.Done.value,
                  "2020-06-24T14:51:12.321Z")
         ]
     )
