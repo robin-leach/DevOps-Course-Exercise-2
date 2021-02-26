@@ -26,7 +26,7 @@ def filter_items_modified_today(items):
 
     for item in items:
         modified_time = datetime.strptime(
-            item.lastModifiedDate,
+            item.last_modified_date,
             date_time_format
         )
         modified_date = start_of_day(modified_time)
@@ -44,7 +44,7 @@ def filter_items_last_modified_before_today(items):
 
     for item in items:
         modified_time = datetime.strptime(
-            item.lastModifiedDate,
+            item.last_modified_date,
             date_time_format
         )
 
@@ -52,6 +52,3 @@ def filter_items_last_modified_before_today(items):
             filtered_items.append(item)
 
     return filtered_items
-
-def generate_random_string(length):
-    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length))
