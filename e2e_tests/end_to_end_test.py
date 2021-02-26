@@ -1,5 +1,4 @@
 import os
-import uuid
 from threading import Thread
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -10,6 +9,7 @@ import logging
 from app import create_app
 from db_client.index import get_db_collection
 from entity.status import Status
+from helpers.index import generate_random_string
 
 log = logging.getLogger('app')
 
@@ -20,7 +20,7 @@ def test_app():
     load_dotenv(file_path, override=True)
 
     # Set up a temporary test collection
-    os.environ['MONGO_DB_DATABASE_NAME'] = f'test-table-{uuid.uuid4()}'
+    os.environ['MONGO_DB_DATABASE_NAME'] = 'test-table-' + generate_random_string(10)
     collection = get_db_collection()
 
     # Clear the collection in case it already contains data

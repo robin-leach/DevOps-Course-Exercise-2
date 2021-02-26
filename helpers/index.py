@@ -52,3 +52,6 @@ def filter_items_last_modified_before_today(items):
             filtered_items.append(item)
 
     return filtered_items
+
+def generate_random_string(length):
+    return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length))
