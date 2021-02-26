@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime, timedelta
 from freezegun import freeze_time
 
-from entity.list_name import ListName
+from entity.status import Status
 from entity.item import Item
 
 from helpers.index import filter_items_by_list, filter_items_modified_today, filter_items_last_modified_before_today, filter_items_last_modified_before_today
@@ -13,7 +13,7 @@ def to_do_item():
     item = Item(
         'to-do-id',
         'to-do-title',
-        ListName.ToDo.value,
+        Status.ToDo.value,
         "2020-06-24T14:51:12.321Z"
     )
     return item
@@ -24,7 +24,7 @@ def doing_item():
     item = Item(
         'doing-id',
         'doing-title',
-        ListName.Doing.value,
+        Status.Doing.value,
         "2020-06-24T14:51:12.321Z"
     )
     return item
@@ -35,7 +35,7 @@ def done_item():
     item = Item(
         'done-id',
         'done-title',
-        ListName.Done.value,
+        Status.Done.value,
         "2020-06-24T14:51:12.321Z"
     )
     return item
@@ -44,7 +44,7 @@ def done_item():
 def test_filter_items_picks_out_to_do_items(to_do_item, doing_item, done_item):
     unfiltered_list = [to_do_item, doing_item, done_item]
 
-    filtered_items = filter_items_by_list(unfiltered_list, ListName.ToDo.value)
+    filtered_items = filter_items_by_list(unfiltered_list, Status.ToDo.value)
 
     assert len(filtered_items) == 1
     assert filtered_items[0].title == to_do_item.title
@@ -53,7 +53,7 @@ def test_filter_items_picks_out_to_do_items(to_do_item, doing_item, done_item):
 def test_filter_items_handles_multiple_to_do_items(to_do_item, doing_item, done_item):
     unfiltered_list = [to_do_item, doing_item, to_do_item, done_item]
 
-    filtered_items = filter_items_by_list(unfiltered_list, ListName.ToDo.value)
+    filtered_items = filter_items_by_list(unfiltered_list, Status.ToDo.value)
 
     assert len(filtered_items) == 2
     assert filtered_items[0].title == to_do_item.title
@@ -63,7 +63,7 @@ def test_filter_items_handles_multiple_to_do_items(to_do_item, doing_item, done_
 def test_filter_items_handles_no_to_do_items(to_do_item, doing_item, done_item):
     unfiltered_list = [doing_item, done_item]
 
-    filtered_items = filter_items_by_list(unfiltered_list, ListName.ToDo.value)
+    filtered_items = filter_items_by_list(unfiltered_list, Status.ToDo.value)
 
     assert len(filtered_items) == 0
 
@@ -71,7 +71,7 @@ def test_filter_items_handles_no_to_do_items(to_do_item, doing_item, done_item):
 def test_filter_items_handles_empty_items(to_do_item, doing_item, done_item):
     unfiltered_list = []
 
-    filtered_items = filter_items_by_list(unfiltered_list, ListName.ToDo.value)
+    filtered_items = filter_items_by_list(unfiltered_list, Status.ToDo.value)
 
     assert len(filtered_items) == 0
 
@@ -82,19 +82,19 @@ def test_filter_items_modified_today_picks_out_items_from_that_day():
         Item(
             'yesterday-item',
             'yesterday-title',
-            ListName.Done.value,
+            Status.Done.value,
             "2020-06-24T14:51:12.321Z"
         ),
         Item(
             'today-item',
             'today-title',
-            ListName.Done.value,
+            Status.Done.value,
             "2020-06-25T14:51:12.321Z"
         ),
         Item(
             'tomorrow-item',
             'tomorrow-title',
-            ListName.Done.value,
+            Status.Done.value,
             "2020-06-26T14:51:12.321Z"
         )
     ]
@@ -111,19 +111,19 @@ def test_filter_items_last_modified_before_today_picks_out_items_from_before_tha
         Item(
             'yesterday-item',
             'yesterday-title',
-            ListName.Done.value,
+            Status.Done.value,
             "2020-06-24T14:51:12.321Z"
         ),
         Item(
             'today-item',
             'today-title',
-            ListName.Done.value,
+            Status.Done.value,
             "2020-06-25T14:51:12.321Z"
         ),
         Item(
             'tomorrow-item',
             'tomorrow-title',
-            ListName.Done.value,
+            Status.Done.value,
             "2020-06-26T14:51:12.321Z"
         )
     ]

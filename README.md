@@ -24,10 +24,6 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-## Trello Requirements
-
-This app relies on being hooked up to a Trello board with the following column names: "To do", "Doing", "Done" (see `entity/list_name.py`).
-
 ## Run on a VM
 
 ### Vagrant

@@ -1,4 +1,4 @@
-from entity.list_name import ListName
+from entity.status import Status
 
 from helpers.index import filter_items_by_list, filter_items_modified_today, filter_items_last_modified_before_today
 
@@ -13,15 +13,15 @@ class ViewModel:
 
     @property
     def to_do_items(self):
-        return filter_items_by_list(self._items, ListName.ToDo.value)
+        return filter_items_by_list(self._items, Status.ToDo.value)
 
     @property
     def doing_items(self):
-        return filter_items_by_list(self._items, ListName.Doing.value)
+        return filter_items_by_list(self._items, Status.Doing.value)
 
     @property
     def done_items(self):
-        return filter_items_by_list(self._items, ListName.Done.value)
+        return filter_items_by_list(self._items, Status.Done.value)
 
     @property
     def show_all_done_items(self):

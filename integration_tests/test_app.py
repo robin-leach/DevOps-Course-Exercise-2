@@ -3,14 +3,12 @@ import pytest
 import json
 
 from app import create_app
-from entity.trello_list import TrelloList
-from entity.trello_card import TrelloCard
-from entity.mock_response import MockResponse
+from entity.item import Item
 
 
 @pytest.fixture
 def client():
-    file_path = find_dotenv('test_env_file.txt')
+    file_path = find_dotenv('test_env_file.test')
     load_dotenv(file_path, override=True)
 
     test_app = create_app()
@@ -19,56 +17,41 @@ def client():
         yield client
 
 
-def stub_lists_request(method, endpoint, extra_params={}):
-    responseJson = [
-        {
-            'id': 'test-to-do-list-id',
-            'name': 'To do'
-        },
-        {
-            'id': 'test-doing-list-id',
-            'name': 'Doing'
-        },
-        {
-            'id': 'test-done-list-id',
-            'name': 'Done'
-        }
-    ]
-    return MockResponse(responseJson)
+def stub_get_db_collection():
+    return
 
 
-def stub_items_request(method, endpoint, extra_params={}):
-    responseJson = [
-        {
-            'id': 'test-to-do-card-id',
-            'name': 'Test To Do Card Title',
-            'idList': 'test-to-do-list-id',
-            'dateLastActivity': '2020-06-24T14:51:12.321Z'
-        },
-        {
-            'id': 'test-doing-card-id',
-            'name': 'Test Doing Card Title',
-            'idList': 'test-doing-list-id',
-            'dateLastActivity': '2020-06-24T14:51:12.321Z'
-        },
-        {
-            'id': 'test-done-card-id',
-            'name': 'Test Done Card Title',
-            'idList': 'test-done-list-id',
-            'dateLastActivity': '2020-06-24T14:51:12.321Z'
-        }
+def stub_get_all_items(collection):
+    return [
+        Item(
+            'test-to-do-card-id',
+            'Test To Do Card Title',
+            'To do',
+            '2020-06-24T14:51:12.321Z'
+        ),
+        Item(
+            'test-doing-card-id',
+            'Test Doing Card Title',
+            'Doing',
+            '2020-06-24T14:51:12.321Z'
+        ),
+        Item(
+            'test-done-card-id',
+            'Test Done Card Title',
+            'Done',
+            '2020-06-24T14:51:12.321Z'
+        )
     ]
-    return MockResponse(responseJson)
 
 
 def test_index_page(monkeypatch, client):
     monkeypatch.setattr(
-        'trello_requests.lists.make_trello_request',
-        stub_lists_request
+        'app.get_db_collection',
+        stub_get_db_collection
     )
     monkeypatch.setattr(
-        'trello_requests.items.make_trello_request',
-        stub_items_request
+        'app.get_all_items',
+        stub_get_all_items
     )
 
     response = client.get('/')
