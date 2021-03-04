@@ -7,3 +7,9 @@ FLASK_SKIP_DOTENV=True
 MONGO_DB_USER_NAME=test-username
 MONGO_DB_PASSWORD=test-password
 MONGO_DB_DATABASE_NAME=test-table-name
+
+# OAuth
+LOGIN_DISABLED=True
+CLIENT_ID=test-client-id
+CLIENT_SECRET=test-client-secret
+OAUTHLIB_INSECURE_TRANSPORT=test
