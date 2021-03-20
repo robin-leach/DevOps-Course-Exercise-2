@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_login import LoginManager, login_required, login_user
+from flask_login import LoginManager, login_required, login_user, current_user
 from oauthlib.oauth2 import WebApplicationClient
 import sys
 import logging
@@ -8,6 +8,7 @@ import os
 
 from entity.http_method import HttpMethod
 from entity.user import User
+from entity.user_role import UserRole
 from views.view_model import ViewModel
 from helpers.index import generate_random_string
 
@@ -20,7 +21,9 @@ date_time_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 def create_app():
     app = Flask(__name__)
     app.secret_key = os.urandom(24)
-    app.config['LOGIN_DISABLED'] = os.getenv('LOGIN_DISABLED')
+
+    login_disabled = os.getenv('LOGIN_DISABLED').upper() == 'TRUE'
+    app.config['LOGIN_DISABLED'] = login_disabled
 
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
@@ -88,21 +91,35 @@ def create_app():
     @app.route('/')
     @login_required
     def index():
+        user = User(current_user.get_id())
+        readonly = (not login_disabled) and user.get_role() == UserRole.Reader
+
         items = get_all_items(collection)
-        return render_template('index.html', view_model=ViewModel(items))
+
+        return render_template('index.html', view_model=ViewModel(items, readonly))
 
     @app.route('/items/<id>/complete')
     @login_required
     def complete_item(id):
-        mark_item_as_complete(collection, id)
-        return redirect(url_for('index'))
+        user = User(current_user.get_id())
+
+        if (login_disabled or user.get_role() == UserRole.Writer):
+            mark_item_as_complete(collection, id)
+            return redirect(url_for('index'))
+        else:
+            return "Unauthorised", 403
 
     @app.route('/items/new', methods=[HttpMethod.Post.value])
     @login_required
     def add_item():
-        name = request.form['title']
-        add_new_item(collection, name)
-        return redirect(url_for('index'))
+        user = User(current_user.get_id())
+
+        if (login_disabled or user.get_role() == UserRole.Writer):
+            name = request.form['title']
+            add_new_item(collection, name)
+            return redirect(url_for('index'))
+        else:
+            return "Unauthorised", 403
 
     if __name__ == '__main__':
         app.run(debug=True)
