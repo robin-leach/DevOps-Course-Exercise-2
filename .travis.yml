@@ -14,8 +14,7 @@ script:
   - docker run test integration_tests
   - >
     docker run
-    -e MONGO_DB_USER_NAME
-    -e MONGO_DB_PASSWORD
+    -e MONGO_DB_CONNECTION_STRING
     test e2e_tests
 
 deploy:

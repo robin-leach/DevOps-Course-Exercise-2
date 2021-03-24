@@ -4,9 +4,8 @@ FLASK_ENV=development
 FLASK_SKIP_DOTENV=True
 
 # MongoDb
-MONGO_DB_USER_NAME=test-username
-MONGO_DB_PASSWORD=test-password
 MONGO_DB_DATABASE_NAME=test-table-name
+MONGO_DB_CONNECTION_STRING=test-connection-string
 
 # OAuth
 LOGIN_DISABLED=TRUE
