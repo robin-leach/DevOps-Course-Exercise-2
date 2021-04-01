@@ -6,14 +6,15 @@ import logging
 import requests
 import os
 
+from db_client.index import get_db_collection
+from db_client.queries import get_all_items, mark_item_as_complete, add_new_item
+from decorators.require_write_privilege import require_write_privilege
+from helpers.index import generate_random_string
 from entity.http_method import HttpMethod
 from entity.user import User
 from entity.user_role import UserRole
 from views.view_model import ViewModel
-from helpers.index import generate_random_string
 
-from db_client.index import get_db_collection
-from db_client.queries import get_all_items, mark_item_as_complete, add_new_item
 
 date_time_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
@@ -101,27 +102,19 @@ def create_app():
         return render_template('index.html', view_model=ViewModel(items, readonly))
 
     @app.route('/items/<id>/complete')
+    @require_write_privilege
     @login_required
     def complete_item(id):
-        user = User(current_user.get_id())
-
-        if (login_disabled or user.get_role() == UserRole.Writer):
-            mark_item_as_complete(collection, id)
-            return redirect(url_for('index'))
-        else:
-            return "Unauthorised", 403
+        mark_item_as_complete(collection, id)
+        return redirect(url_for('index'))
 
     @app.route('/items/new', methods=[HttpMethod.Post.value])
+    @require_write_privilege
     @login_required
     def add_item():
-        user = User(current_user.get_id())
-
-        if (login_disabled or user.get_role() == UserRole.Writer):
-            name = request.form['title']
-            add_new_item(collection, name)
-            return redirect(url_for('index'))
-        else:
-            return "Unauthorised", 403
+        name = request.form['title']
+        add_new_item(collection, name)
+        return redirect(url_for('index'))
 
     if __name__ == '__main__':
         app.run(debug=True)
