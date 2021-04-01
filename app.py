@@ -87,6 +87,8 @@ def create_app():
 
         if login_success:
             return redirect(url_for('index'))
+        else:
+            return "Unauthorised", 403
 
     @app.route('/')
     @login_required
