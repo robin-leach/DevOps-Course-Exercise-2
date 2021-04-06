@@ -94,8 +94,9 @@ def create_app():
     @app.route('/')
     @login_required
     def index():
-        user = User(current_user.get_id())
-        readonly = (not login_disabled) and user.get_role() == UserRole.Reader
+        user: User = current_user
+        readonly = (
+            not login_disabled) and user.get_role() == UserRole.Reader
 
         items = get_all_items(collection)
 
