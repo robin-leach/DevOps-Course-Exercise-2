@@ -12,10 +12,11 @@ before-script:
 script:
   - docker run test test
   - docker run test integration_tests
-  - >
-    docker run
-    -e MONGO_DB_CONNECTION_STRING
-    test e2e_tests
+  # TODO: Uncomment this once Chrome 90 becomes stable
+  # - >
+  #   docker run
+  #   -e MONGO_DB_CONNECTION_STRING
+  #   test e2e_tests
 
 deploy:
   provider: script
