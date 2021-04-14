@@ -32,7 +32,7 @@ For the app to run successfully, you will need the correct environment variables
 
  By default, the app is run with OAuth which protects every endpoint. To disable this, set `LOGIN_DISABLED=TRUE` in your `.env` file.
 
- The app must linked to a Github OAuth app, through the `CLIENT_ID` and `CLIENT_SECRET` env variables. Either obtain these from an existing Github OAuth app, or follow [these instructions](https://docs.github.com/en/developers/apps/creating-an-oauth-app) to create a new one.
+ The app must linked to a Github OAuth app, through the `CLIENT_ID` and `CLIENT_SECRET` env variables. Either obtain these from an existing Github OAuth app, or follow [these instructions](https://docs.github.com/en/developers/apps/creating-an-oauth-app) to create a new one. The callback route is `/login/callback`.
 
  After logging in through Github, the app grants you different permissions based off of whether your Github username is associate with a "Writer" role (i.e. you have write privileges), or the default "Reader" role. Currently these roles are assigned to Github usernames through a hardcoded list in `entity\user.py`.
 
