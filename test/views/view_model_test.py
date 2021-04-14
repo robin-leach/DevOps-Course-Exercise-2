@@ -30,7 +30,8 @@ def view_model():
                  "2020-06-24T14:51:12.321Z"),
             Item('done-id', 'done-title', Status.Done.value,
                  "2020-06-24T14:51:12.321Z")
-        ]
+        ],
+        False
     )
 
 
@@ -56,7 +57,8 @@ def test_show_all_done_items_is_true_for_four_done_items(to_do_item, doing_item,
             done_item,
             done_item,
             done_item
-        ]
+        ],
+        False
     )
 
     assert test_view_model.show_all_done_items
@@ -71,7 +73,8 @@ def test_show_all_done_items_is_true_for_four_done_items_and_other_items(to_do_i
             done_item,
             to_do_item,
             doing_item,
-        ]
+        ],
+        False
     )
 
     assert test_view_model.show_all_done_items
@@ -85,7 +88,8 @@ def test_show_all_done_items_is_false_for_five_done_items(to_do_item, doing_item
             done_item,
             done_item,
             done_item
-        ]
+        ],
+        False
     )
 
     assert not test_view_model.show_all_done_items
@@ -101,7 +105,8 @@ def test_show_all_done_items_is_false_for_five_done_items_and_other_items(to_do_
             done_item,
             to_do_item,
             doing_item
-        ]
+        ],
+        False
     )
 
     assert not test_view_model.show_all_done_items

@@ -4,8 +4,9 @@ from helpers.index import filter_items_by_list, filter_items_modified_today, fil
 
 
 class ViewModel:
-    def __init__(self, items):
+    def __init__(self, items, readonly):
         self._items = items
+        self._readonly = readonly
 
     @property
     def all_items(self):
@@ -38,3 +39,7 @@ class ViewModel:
     @property
     def display_older_items(self):
         return len(self.older_items) > 0
+
+    @property
+    def is_readonly(self):
+        return self._readonly

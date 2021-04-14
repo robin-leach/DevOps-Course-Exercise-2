@@ -19,6 +19,8 @@ def test_app():
     file_path = find_dotenv()
     load_dotenv(file_path, override=True)
 
+    os.environ['LOGIN_DISABLED'] = 'TRUE'
+
     # Set up a temporary test collection
     os.environ['MONGO_DB_DATABASE_NAME'] = 'test-table-' + generate_random_string(10)
     collection = get_db_collection()

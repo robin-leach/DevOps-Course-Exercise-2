@@ -12,6 +12,8 @@ services:
       - "./:/app"
   prod-app:
     env_file: .env
+    environment:
+      - PORT=8000
     ports:
       - "5000:8000"
     build:

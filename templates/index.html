@@ -5,6 +5,7 @@ content %}
   <p class="lead">Just another to-do app.</p>
 </div>
 
+{% if not view_model.is_readonly %}
 <div class="row">
   <div class="col-md-12">
     <h2>New item</h2>
@@ -28,6 +29,7 @@ content %}
     </form>
   </div>
 </div>
+{% endif %}
 
 <div class="row">
   <div class="col-md-12">
@@ -39,12 +41,15 @@ content %}
           <div class="row to-do-item">
             <h5 class="mt-1 mb-1">{{ item.title }}</h5>
           </div>
+
+          {% if not view_model.is_readonly %}
           <a
             id="mark-done-{{item.title}}"
             href="{{ url_for('complete_item', id=item.id) }}"
             class="btn btn-sm btn-primary mark-done"
             >Mark as Done</a
           >
+          {% endif %}
         </div>
       </li>
       {% endfor %}
@@ -78,30 +83,32 @@ content %}
   <div class="col-md-12">
     <h2>Done</h2>
     <ul class="list-group mb-4">
-      {% for item in (view_model.done_items if view_model.show_all_done_items else view_model.recent_done_items) %}
+      {% for item in (view_model.done_items if view_model.show_all_done_items
+      else view_model.recent_done_items) %}
       <li class="list-group-item flex-column">
         <div class="d-flex w-100 justify-content-between">
-          <div class="row done-item" >
+          <div class="row done-item">
             <h5 class="mt-1 mb-1">{{ item.title }}</h5>
           </div>
         </div>
       </li>
       {% endfor %}
     </ul>
-    {% if (not view_model.show_all_done_items) and view_model.display_older_items %}
+    {% if (not view_model.show_all_done_items) and
+    view_model.display_older_items %}
     <details>
-    <summary>Older items</summary>
-    <ul class="list-group mb-4">
-      {% for item in view_model.older_items %}
-      <li class="list-group-item flex-column">
-        <div class="d-flex w-100 justify-content-between">
-          <div class="row">
-            <h5 class="mt-1 mb-1">{{ item.title }}</h5>
+      <summary>Older items</summary>
+      <ul class="list-group mb-4">
+        {% for item in view_model.older_items %}
+        <li class="list-group-item flex-column">
+          <div class="d-flex w-100 justify-content-between">
+            <div class="row">
+              <h5 class="mt-1 mb-1">{{ item.title }}</h5>
+            </div>
           </div>
-        </div>
-      </li>
-      {% endfor %}
-    </ul>
+        </li>
+        {% endfor %}
+      </ul>
     </details>
     {% endif %}
   </div>
