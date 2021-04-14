@@ -1,6 +1,4 @@
 #!/bin/bash
 
 docker push $DOCKER_HUB_USERNAME/todo-app:latest
-docker tag robinleach/todo-app:latest registry.heroku.com/rtl-todo-app/web
-docker push registry.heroku.com/rtl-todo-app/web
-heroku container:release web -a rtl-todo-app
+curl -dH -X POST "https://\$todo-app-rtl:aGoprJpovo6eCt6eJzbakEAcENNvSRRoxcP9iyAbNnSvXv7Bdxip5icaFRzt@todo-app-rtl.scm.azurewebsites.net/docker/hook"
