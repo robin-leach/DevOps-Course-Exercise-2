@@ -37,3 +37,9 @@ variable "flask_env" {
   type        = string
   default     = "development"
 }
+
+variable "log_level" {
+  description = "The log level for the recorded logs"
+  type        = string
+  default     = "DEBUG"
+}

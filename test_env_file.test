@@ -2,6 +2,7 @@
 FLASK_APP=app
 FLASK_ENV=development
 FLASK_SKIP_DOTENV=True
+LOG_LEVEL=DEBUG
 
 # MongoDb
 MONGO_DB_DATABASE_NAME=test-table-name
