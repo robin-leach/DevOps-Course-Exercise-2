@@ -17,19 +17,23 @@ variable "client_secret" {
 variable "login_disabled" {
   description = "OAuth is used unless this is true"
   type        = bool
+  default     = true
 }
 
 variable "oathlib_insecure_transport" {
   description = "Use insecure transport for OAuth"
   type        = bool
+  default     = true
 }
 
 variable "flask_app" {
   description = "Standard Flask FLASK_APP env variable"
   type        = string
+  default     = "app"
 }
 
 variable "flask_env" {
   description = "Standard Flask FLASK_ENV env variable"
   type        = string
+  default     = "development"
 }
