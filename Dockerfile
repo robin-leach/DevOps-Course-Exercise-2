@@ -10,7 +10,7 @@ CMD poetry run gunicorn -b 0.0.0.0:${PORT} 'app:create_app()'
 
 FROM base as development
 EXPOSE 5000
-ENTRYPOINT ["./run-dev.sh"]
+ENTRYPOINT ["./scripts/run-dev.sh"]
 
 FROM base as test
 RUN apt-get update &&\

@@ -4,7 +4,7 @@
 
 The project uses a virtual environment to isolate package dependencies. To create the virtual environment and install required packages, run the following from a shell terminal (e.g. Git Bash on Windows):
 ```bash
-$ source setup.sh
+$ source scripts/setup.sh
 ```
 
 Once the setup script has completed and all packages have been installed, start the Flask app by running:
@@ -71,3 +71,29 @@ To run the tests in a Docker container, run  `docker build --tag test --target t
  * `docker run test integration_tests` to run all the integration tests
  * `docker run --env-file .env test e2e_tests` to run all the end-to-end tests
  * `docker run --env-file .env test` to run all the tests
+
+ ## Infrastructure
+
+ The application is hosted on Azure, with the infrastructure described by Terraform.
+
+ ### Making changes to the infrastructure
+
+ To make changes to the infrastructure, you should edit the terraform files and apply the changes rather than making changes in Azure directly. To do this:
+ 1. Run `terraform init` in the root of the project
+ 2. Make your changes to the terraform files
+ 3. Preview your changes with the `terraform plan` command
+ 4. Apply your changes with the `terraform apply` command
+ 
+ Note that when running `terraform plan` or `terraform apply`, you will need to provide variable values. To do this, you can either create a `.tfvars` file based off of `.tfvars.template` with your secret values and use that by running 
+ ```
+ terraform plan -var-file [FILE NAME].tfvars
+ ```
+ or provide them individually by running
+ ```
+ terraform plan var="some_var_value=[FIRST VALUE]" -var="another_var_value=[SECOND VALUE]" ...
+```
+where `some_var_value`, `another_var_value` etc. are the variables listed in `.tfvars.template`.
+
+### State storage
+
+The Terraform state is stored in a blob container in Azure. The setup for this was done by running `scripts/configure-tf-state-storage.sh`, and so this script will also tell you how to find the state. Note that this script should *not* be run again unless the state needs to be set up again for some reason, but is left for documentation reasons and future reference.

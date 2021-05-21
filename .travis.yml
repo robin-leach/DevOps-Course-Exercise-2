@@ -1,9 +1,9 @@
 services:
-- docker
+  - docker
 
-before-install:
+before_install:
+  - TF_VERSION=0.14.7
   - echo "$DOCKER_HUB_PASSWORD" | docker login --username $DOCKER_HUB_USERNAME --password-stdin
-  - heroku container:login
 
 before-script:
   - docker build --tag test --target test .
@@ -18,9 +18,17 @@ script:
   #   -e MONGO_DB_CONNECTION_STRING
   #   test e2e_tests
 
+install:
+  - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  - az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+  - wget https://releases.hashicorp.com/terraform/"$TF_VERSION"/terraform_"$TF_VERSION"_linux_amd64.zip
+  - unzip terraform_"$TF_VERSION"_linux_amd64.zip
+  - sudo mv terraform /usr/local/bin/
+  - rm terraform_"$TF_VERSION"_linux_amd64.zip
+
 deploy:
   provider: script
-  script: bash deploy.sh
+  script: bash scripts/deploy.sh
   on:
     branch: master
 

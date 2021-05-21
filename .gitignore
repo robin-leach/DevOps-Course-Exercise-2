@@ -121,3 +121,10 @@ chromedriver.exe
 ### Vagrant
 .vagrant
 app_logs.log
+
+### Terraform
+.terraform/
+.terraform.tfstate.lock.info
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
