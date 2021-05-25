@@ -6,6 +6,7 @@ import logging
 import requests
 import os
 from html import escape
+from loggly.handlers import HTTPSHandler
 
 from db_client.index import get_db_collection
 from db_client.queries import get_all_items, mark_item_as_complete, add_new_item
@@ -30,6 +31,16 @@ def create_app():
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
     app.logger.setLevel(os.getenv('LOG_LEVEL'))
+    loggly_token = os.getenv('LOGGLY_TOKEN')
+    loggly_tag = os.getenv('LOGGLY_TAG')
+
+    if loggly_token is not None and loggly_tag is not None:
+        handler = HTTPSHandler(
+            f'https://logs-01.loggly.com/inputs/{loggly_token}/tag/{loggly_tag}')
+        handler.setFormatter(logging.Formatter(
+            "[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+        app.logger.addHandler(handler)
+
     log = logging.getLogger('app')
 
     collection = get_db_collection()
@@ -100,7 +111,8 @@ def create_app():
             log.debug(f'User login for "{escape(github_username)}" successful')
             return redirect(url_for('index'))
         else:
-            log.error(f'User login for "{escape(github_username)}" unsuccessful')
+            log.error(
+                f'User login for "{escape(github_username)}" unsuccessful')
             return "Unauthorised", 403
 
     @app.route('/')

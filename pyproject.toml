@@ -14,6 +14,7 @@ gunicorn = "^20.0.4"
 pymongo = {version = "^3.11.2", extras = ["srv"]}
 oauthlib = "^3.1.0"
 flask-login = "^0.5.0"
+loggly-python-handler = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 freezegun="0.3.15"

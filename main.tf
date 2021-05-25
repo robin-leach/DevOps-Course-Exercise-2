@@ -57,6 +57,8 @@ resource "azurerm_app_service" "main" {
     "FLASK_APP"                   = var.flask_app
     "FLASK_ENV"                   = var.flask_env
     "LOG_LEVEL"                   = var.log_level
+    "LOGGLY_TOKEN"                = var.loggly_token
+    "LOGGLY_TAG"                  = "${var.prefix}-${var.loggly_tag}"
   }
 }
 

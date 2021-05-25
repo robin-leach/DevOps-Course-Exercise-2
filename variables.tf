@@ -43,3 +43,15 @@ variable "log_level" {
   type        = string
   default     = "DEBUG"
 }
+
+variable "loggly_token" {
+  description = "Access token for Loggly"
+  type        = string
+  sensitive   = true
+}
+
+variable "loggly_tag" {
+  description = "Tag for logs in Loggly"
+  type        = string
+  default     = "todo-app"
+}
