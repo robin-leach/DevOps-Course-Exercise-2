@@ -41,7 +41,7 @@ variable "flask_env" {
 variable "log_level" {
   description = "The log level for the recorded logs"
   type        = string
-  default     = "DEBUG"
+  default     = "INFO"
 }
 
 variable "loggly_token" {

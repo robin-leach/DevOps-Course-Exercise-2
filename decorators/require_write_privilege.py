@@ -19,15 +19,15 @@ def require_write_privilege(function):
 
         user: User = current_user
         log.debug(
-            f'User "{user.get_id()}" has hit an endpoint that requires write priveleges')
+            f'User "{escape(user.get_id())}" has hit an endpoint that requires write priveleges')
 
         if (user.get_role() == UserRole.Writer):
             log.debug(
-                f'User "{user.get_id()}" has write permissions, continuing with request')
+                f'User "{escape(user.get_id())}" has write permissions, continuing with request')
             return function(*args, **kwargs)
         else:
             log.debug(
-                f'User "{user.get_id()}" does not have write permissions, rejecting the request')
+                f'User "{escape(user.get_id())}" does not have write permissions, rejecting the request')
             return "Unauthorised", 403
 
     return wrapper
