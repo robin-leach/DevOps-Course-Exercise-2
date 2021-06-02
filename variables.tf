@@ -37,3 +37,21 @@ variable "flask_env" {
   type        = string
   default     = "development"
 }
+
+variable "log_level" {
+  description = "The log level for the recorded logs"
+  type        = string
+  default     = "INFO"
+}
+
+variable "loggly_token" {
+  description = "Access token for Loggly"
+  type        = string
+  sensitive   = true
+}
+
+variable "loggly_tag" {
+  description = "Tag for logs in Loggly"
+  type        = string
+  default     = "todo-app"
+}

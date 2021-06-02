@@ -2,6 +2,7 @@
 FLASK_APP=app
 FLASK_ENV=development
 FLASK_SKIP_DOTENV=True
+LOG_LEVEL=DEBUG
 
 # MongoDb
 MONGO_DB_DATABASE_NAME=test-table-name
@@ -12,3 +13,7 @@ LOGIN_DISABLED=TRUE
 CLIENT_ID=test-client-id
 CLIENT_SECRET=test-client-secret
 OAUTHLIB_INSECURE_TRANSPORT=test
+
+# Loggly
+LOGGLY_TOKEN=
+LOGGLY_TAG=

@@ -5,6 +5,8 @@ import sys
 import logging
 import requests
 import os
+from html import escape
+from loggly.handlers import HTTPSHandler
 
 from db_client.index import get_db_collection
 from db_client.queries import get_all_items, mark_item_as_complete, add_new_item
@@ -28,7 +30,17 @@ def create_app():
 
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
-    app.logger.setLevel(logging.DEBUG)
+    app.logger.setLevel(os.getenv('LOG_LEVEL'))
+    loggly_token = os.getenv('LOGGLY_TOKEN')
+    loggly_tag = os.getenv('LOGGLY_TAG')
+
+    if loggly_token is not None and loggly_tag is not None:
+        handler = HTTPSHandler(
+            f'https://logs-01.loggly.com/inputs/{loggly_token}/tag/{loggly_tag}')
+        handler.setFormatter(logging.Formatter(
+            "[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+        app.logger.addHandler(handler)
+
     log = logging.getLogger('app')
 
     collection = get_db_collection()
@@ -41,8 +53,12 @@ def create_app():
 
     oauth_client = WebApplicationClient(client_id)
 
+    log.info('App has initiliased')
+
     @login_manager.unauthorized_handler
     def unauthenticated():
+        log.debug('Redirecting user to authenticator')
+
         request_uri = oauth_client.prepare_request_uri(
             "https://github.com/login/oauth/authorize",
             state=state
@@ -57,6 +73,8 @@ def create_app():
 
     @app.route("/login/callback", methods=["GET"])
     def callback():
+        log.debug('User has hit login callback')
+
         token_request_url, token_request_headers, token_request_body = oauth_client.prepare_token_request(
             token_url="https://github.com/login/oauth/access_token",
             authorization_response=request.url,
@@ -83,12 +101,18 @@ def create_app():
         )
 
         github_username = user_info_response.json()['login']
+
+        log.debug(f'Logging in user with username "{escape(github_username)}"')
+
         user = User(github_username)
         login_success = login_user(user)
 
         if login_success:
+            log.debug(f'User login for "{escape(github_username)}" successful')
             return redirect(url_for('index'))
         else:
+            log.error(
+                f'User login for "{escape(github_username)}" unsuccessful')
             return "Unauthorised", 403
 
     @app.route('/')
@@ -106,7 +130,12 @@ def create_app():
     @require_write_privilege
     @login_required
     def complete_item(id):
+        log.debug(
+            f'Recieved request to mark item with ID "{escape(id)}" as complete')
+
         mark_item_as_complete(collection, id)
+
+        log.debug(f'Item with ID "{escape(id)}" marked as complete')
         return redirect(url_for('index'))
 
     @app.route('/items/new', methods=[HttpMethod.Post.value])
@@ -114,7 +143,11 @@ def create_app():
     @login_required
     def add_item():
         name = request.form['title']
+        log.debug(f'Recieved add item request for item "{escape(name)}"')
+
         add_new_item(collection, name)
+
+        log.debug(f'Item with name "{escape(name)}" added')
         return redirect(url_for('index'))
 
     if __name__ == '__main__':
