@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: module-14
+spec:
+  selector:
+    matchLabels:
+      app: module-14
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: module-14
+    spec:
+      containers:
+        - name: todo-app
+          image: todo-app:prod
+          imagePullPolicy: Never
+          env:
+            - name: FLASK_APP
+              value: "app"
+            - name: FLASK_ENV
+              value: "development"
+            - name: LOG_LEVEL
+              value: "DEBUG"
+            - name: MONGO_DB_DATABASE_NAME
+              value: "todo-list-database-dev"
+            - name: MONGO_DB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-secrets
+                  key: MONGO_DB_CONNECTION_STRING
+            - name: LOGIN_DISABLED
+              value: "TRUE"
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-secrets
+                  key: CLIENT_ID
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-secrets
+                  key: CLIENT_SECRET
+            - name: OAUTHLIB_INSECURE_TRANSPORT
+              value: "1"
+            - name: LOGGLY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-secrets
+                  key: LOGGLY_TOKEN
+            - name: LOGGLY_TAG
+              value: "todo-app-kubernetes"
+            - name: PORT
+              value: "80"
+          ports:
+            - containerPort: 80
